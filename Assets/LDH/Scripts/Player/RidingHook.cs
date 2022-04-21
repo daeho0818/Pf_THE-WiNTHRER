@@ -66,9 +66,12 @@ public class RidingHook : MonoBehaviour
     IEnumerator DownBattery()
     {
         if (downing) yield break;
+
         downing = true;
         upping = false;
+
         StopCoroutine(UpBattery());
+
         while (PlayerInfo.Instance.Battery > 0)
         {
             if (!lightObj.activeSelf)
@@ -82,6 +85,7 @@ public class RidingHook : MonoBehaviour
 
         lightObj.SetActive(false);
         downing = false;
+
         StartCoroutine(UpBattery());
     }
 
@@ -89,9 +93,12 @@ public class RidingHook : MonoBehaviour
     IEnumerator UpBattery()
     {
         if (upping) yield break;
+
         StopCoroutine(DownBattery());
+
         upping = true;
         downing = false;
+
         while (PlayerInfo.Instance.Battery < PlayerInfo.Instance.MaxBattery)
         {
             if (lightObj.activeSelf)
@@ -156,10 +163,13 @@ public class RidingHook : MonoBehaviour
                 isAttack = false;
                 isRiding = false;
                 isHookEnd = false;
+
                 mouseDir = Vector2.zero;
+
                 Hook h = hook.GetComponent<Hook>();
                 h.targetObject = null;
                 h.joint2D.enabled = false;
+
                 hook.gameObject.SetActive(false);
                 animController.SetHookAnim(false);
             }

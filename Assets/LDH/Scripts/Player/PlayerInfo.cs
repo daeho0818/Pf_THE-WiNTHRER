@@ -12,19 +12,31 @@ public class PlayerInfo : MonoBehaviour
     public float MaxColdGuage { get; set; } = 15;
     public float Battery { get; set; } = 5;
     public float MaxBattery { get; set; } = 5;
-    public bool IsRanding { 
-        get 
+    public bool IsRanding
+    {
+        get
         {
-            GameObject player = GameObject.Find("Player");
-            return player.GetComponent<PlayerController>().isGround;
-        } 
+            if (!playerController)
+            {
+                GameObject player = GameObject.Find("Player");
+                playerController = player.GetComponent<PlayerController>();
+            }
+
+            return playerController.isGround;
+        }
         set
         {
-            GameObject player = GameObject.Find("Player");
-            player.GetComponent<PlayerController>().isGround = value;
-        }
+            if (!playerController)
+            {
+                GameObject player = GameObject.Find("Player");
+                playerController = player.GetComponent<PlayerController>();
+            }
 
+            playerController.isGround = value;
+        }
     }
     public List<GameObject> Items { get; set; }
     public GameObject Item { get; set; }
+
+    PlayerController playerController = null;
 }

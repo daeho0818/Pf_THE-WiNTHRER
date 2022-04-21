@@ -6,10 +6,10 @@ public class DDOL : MonoBehaviour
 {
     public static DDOL ddol { get; private set; } = null;
 
-
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        
         if (ddol)
         {
             Destroy(gameObject);
@@ -19,14 +19,5 @@ public class DDOL : MonoBehaviour
         PlayerPrefs.SetFloat("PosY", -3);
 
         ddol = this;
-    }
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
     }
 }

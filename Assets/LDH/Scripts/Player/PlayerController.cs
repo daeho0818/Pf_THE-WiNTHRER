@@ -32,7 +32,9 @@ public class PlayerController : MonoBehaviour
     {
         speed = moveSpeed;
         rigid = GetComponent<Rigidbody2D>();
-        animController = GetComponent<PlayerCharacterAnimationControl>();
+
+        if (!animController)
+            animController = GetComponent<PlayerCharacterAnimationControl>();
 
         Load();
     }
@@ -65,6 +67,9 @@ public class PlayerController : MonoBehaviour
         PlayerPrefs.SetFloat("PosY", -3);
     }
 
+    /// <summary>
+    /// 플레이어 달리기 함수
+    /// </summary>
     void RunAlgorithm()
     {
         if (leftRunChk && (Time.time - leftKeyTime) > 0.5f)
@@ -110,6 +115,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 점프하거나 사다리를 오르는 함수
+    /// </summary>
     void JumpOrLaddering()
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 0.9f);
@@ -131,11 +139,6 @@ public class PlayerController : MonoBehaviour
         {
             rigid.AddForce(Vector2.up * jumpPower);
         }
-        // else if (Input.GetKeyDown(KeyCode.W))
-        // {
-        //     if (isLadder)
-        //         animController.SetLadderAnim(true);
-        // }
         else if (Input.GetKey(KeyCode.W))
         {
             if (isLadder)
@@ -152,6 +155,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 상자를 미는 함수
+    /// </summary>
     void PushBox()
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, moveDir, 0.6f);
@@ -189,6 +195,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 플레이어 사망 여부를 확인하는 함수 (상자 충돌)
+    /// </summary>
     void ChkDead()
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.up, 0.9f);
@@ -207,6 +216,9 @@ public class PlayerController : MonoBehaviour
         Move();
     }
 
+    /// <summary>
+    /// 플레이어 걸음 함수
+    /// </summary>
     private void Move()
     {
         float h = Input.GetAxis("Horizontal");
@@ -269,6 +281,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 플레이어 좌표 저장
+    /// </summary>
     void Save()
     {
         TorchManager.instance.TorchToggle(torchObj.GetComponent<TorchObject>());
@@ -276,6 +291,9 @@ public class PlayerController : MonoBehaviour
         PlayerPrefs.SetFloat("PosY", transform.position.y);
     }
 
+    /// <summary>
+    /// 플레이어 좌표 불러오기
+    /// </summary>
     void Load()
     {
         Vector2 loadPos = new Vector2(PlayerPrefs.GetFloat("PosX"), PlayerPrefs.GetFloat("PosY"));
@@ -300,6 +318,7 @@ public class PlayerController : MonoBehaviour
         else if (collision.CompareTag("ClearZone"))
             UnityEngine.SceneManagement.SceneManager.LoadScene(2);
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Ladder"))

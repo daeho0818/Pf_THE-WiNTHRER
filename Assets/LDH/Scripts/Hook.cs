@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Hook : MonoBehaviour
 {
-    RidingHook RidingHook;
+    RidingHook ridingHook;
     public GameObject targetObject;
     public DistanceJoint2D joint2D;
     private void Start()
     {
-        RidingHook = GameObject.Find("Player").GetComponent<RidingHook>();
+        ridingHook = GameObject.Find("Player").GetComponent<RidingHook>();
         joint2D = GetComponent<DistanceJoint2D>();
     }
 
@@ -19,13 +19,13 @@ public class Hook : MonoBehaviour
         {
             targetObject = collision.gameObject;
             joint2D.enabled = true;
-            RidingHook.isAttack = true;
-            RidingHook.animController.SetHookAnim(true);
+            ridingHook.isAttack = true;
+            ridingHook.animController.SetHookAnim(true);
         }
         else if(!collision.CompareTag("Player") && !collision.CompareTag("ColdZone"))
         {
             Debug.Log(collision.tag);
-            RidingHook.isHookEnd = true;
+            ridingHook.isHookEnd = true;
         }
     }
 }
